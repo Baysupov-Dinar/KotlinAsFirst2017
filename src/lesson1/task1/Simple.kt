@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -75,7 +76,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val rad = ((grad + min/60.0 + sec/3600.0) * PI)/180.0
+    val rad = ((grad + min / 60.0 + sec / 3600.0) * PI) / 180.0
     return rad
 }
 
@@ -86,7 +87,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val length = sqrt(sqr(x2-x1)+ sqr(y2-y1))
+    val length = sqrt(sqr(x2 - x1) + sqr(y2 - y1))
     return length
 }
 
@@ -97,7 +98,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int {
-    val digit = (number/100)%10
+    val digit = (number / 100) % 10
     return digit
 }
 
@@ -109,7 +110,7 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val travelTime = (hoursArrive * 60 + minutesArrive)- (hoursDepart*60 + minutesDepart)
+    val travelTime = (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
     return travelTime
 }
 
@@ -120,10 +121,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double {
-   val expectedSum = initial * pow((1+ percent/100.0) , 3.0)
-    return expectedSum
-}
+fun accountInThreeYears(initial: Int, percent: Int) = initial * pow((1 + percent / 100.0), 3.0)
 
 /**
  * Простая
@@ -132,9 +130,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val firstDigit = number/100
-    val secondDigit = number/10 - number/100*10
-    val thirdDigit = number - number/10*10
-    val reverse = thirdDigit*100 + secondDigit*10 + firstDigit
+    val firstDigit = number / 100
+    val secondDigit = number / 10 - number / 100 * 10
+    val thirdDigit = number - number / 10 * 10
+    val reverse = thirdDigit * 100 + secondDigit * 10 + firstDigit
     return reverse
 }
