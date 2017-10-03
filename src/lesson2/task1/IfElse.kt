@@ -122,8 +122,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
 
+    val sqrA = sqr(a)
+    val sqrB = sqr(b)
+    val sqrC = sqr(c)
+
+    when{
+        (a + b < c || a + c < b || b + c < a) -> return -1
+        (sqrA + sqrB == sqrC || sqrA + sqrC == sqrB || sqrB + sqrC == sqrA) -> return 1
+        (sqrA + sqrB < sqrC || sqrA + sqrC < sqrB || sqrB + sqrC < sqrA) -> return 2
+        else -> return 0
+    }
+}
 /**
  * Средняя
  *
@@ -132,4 +143,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (c in a..b && b <= d) return (b - c)
+    else if (a in c..d && d <= b) return (d - a)
+    else if (a <= c && d <= b) return (d - c)
+    else if (c <= a && b <= d) return (b - a)
+    else return -1
+}
