@@ -140,7 +140,15 @@ fun mean(list: List<Double>): Double {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val avg = mean(list)
+
+    for ((index, element) in list.withIndex()) {
+        list[index] = element - avg
+    }
+    return list
+}
+
 
 /**
  * Средняя
