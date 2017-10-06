@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson1.task1.sqr
+import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -60,7 +63,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var result = 0
+    var number = n
+    do{
+        result += 1
+        number/= 10
+    } while(Math.abs(number) > 0)
+    return result
+}
 
 /**
  * Простая
@@ -68,8 +79,7 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
-
+fun fib(n: Int): Int = if(n < 3) 1 else fib(n-2) + fib(n -1)
 /**
  * Простая
  *
@@ -83,14 +93,20 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var minDiv = 1
+    do{
+        minDiv += 1
+    } while(n % minDiv != 0)
+    return minDiv
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -108,7 +124,18 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {TODO()
+    /**  val sqrtM = sqrt(m.toDouble())
+    val sqrtN = sqrt(n.toDouble())
+    for (i in 0..n){
+        if(sqr(i.toDouble()) in m..n) return true
+        else return false
+    }
+   */
+
+}
+
+
 
 /**
  * Средняя
@@ -169,4 +196,26 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int { TODO()
+
+   /* var seq = 0.0
+    var iter =0
+    var count = 0
+    for (i in 1..n) {
+        count += digitNumber(fib(n))
+        iter +=1
+        //if (count > n) break
+    }
+    if (count == 0 && digitNumber(fib(iter)) == 1) seq += fib(iter)
+    else {
+        seq *= 0
+        seq *= pow(10.0, digitNumber(fib(iter)).toDouble())
+        seq += fib(iter)
+    }
+    println(seq)
+    while(count != n){
+        count -=1
+        seq.toInt() / 10
+    }
+    return seq.toInt()*/
+}
