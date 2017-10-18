@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -37,7 +38,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,10 +67,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var result = 0
     var number = n
-    do{
-        result += 1
-        number/= 10
-    } while(Math.abs(number) > 0)
+    do {
+        result++
+        number /= 10
+    } while (Math.abs(number) > 0)
     return result
 }
 
@@ -79,7 +80,8 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if(n < 3) 1 else fib(n-2) + fib(n -1)
+fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 2) + fib(n - 1)
+
 /**
  * Простая
  *
@@ -95,9 +97,9 @@ fun lcm(m: Int, n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var minDiv = 1
-    do{
-        minDiv += 1
-    } while(n % minDiv != 0)
+    do {
+        minDiv++
+    } while (n % minDiv != 0)
     return minDiv
 }
 
@@ -124,17 +126,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {TODO()
-    /**  val sqrtM = sqrt(m.toDouble())
-    val sqrtN = sqrt(n.toDouble())
-    for (i in 0..n){
-        if(sqr(i.toDouble()) in m..n) return true
-        else return false
-    }
-   */
-
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in m..n)
+        if (sqrt(i.toDouble()) % 1.0 == 0.0) return true
+    return false
 }
-
 
 
 /**
@@ -187,7 +183,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var number = 0
+    var count = 0
+    var iter = 1.0
+    while (count < n) {
+        number = sqr(iter).toInt()
+        count += digitNumber(sqr(iter).toInt())
+        iter++
+    }
+    while (count != n) {
+        count--
+        number /= 10
+    }
+    return number % 10
+}
 
 /**
  * Сложная
@@ -196,26 +206,19 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int { TODO()
-
-   /* var seq = 0.0
-    var iter =0
+fun fibSequenceDigit(n: Int): Int {
+    var seq = 0
+    var iter =1
     var count = 0
-    for (i in 1..n) {
-        count += digitNumber(fib(n))
-        iter +=1
-        //if (count > n) break
+    while(count < n) {
+        seq = fib(iter)
+        count += digitNumber(fib(iter))
+        iter++
     }
-    if (count == 0 && digitNumber(fib(iter)) == 1) seq += fib(iter)
-    else {
-        seq *= 0
-        seq *= pow(10.0, digitNumber(fib(iter)).toDouble())
-        seq += fib(iter)
-    }
-    println(seq)
+
     while(count != n){
-        count -=1
-        seq.toInt() / 10
+        count --
+        seq /=  10
     }
-    return seq.toInt()*/
+    return seq % 10
 }
