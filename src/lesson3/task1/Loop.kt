@@ -171,18 +171,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    TODO()
-/*    var dig = digitNumber(n)
     var res = 0
-var num = n
-
-    while(dig > 0){
-        dig--
-        res += n % 10
-        num /= 10
-        if(dig != 1)res *= 10
-    }
-    return res*/
+    var dig = n
+    do {
+        res *= 10
+        res += dig % 10
+        dig /= 10
+    } while (dig > 0)
+    return res
 }
 
 /**
@@ -200,7 +196,10 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+
+fun hasDifferentDigits(n: Int): Boolean {
+    TODO()
+}
 
 /**
  * Сложная
