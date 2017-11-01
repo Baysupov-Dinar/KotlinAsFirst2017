@@ -259,6 +259,49 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val rusWords = listOf("ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+        "десять", "одиннадцать", "двенадцать", "тринадцть", "четырнадцать", "пятнадцать", "шестнадцать",
+        "семнадцать", "восемнадцать", "девятнадцать")
+
+fun numberOfThrees(n: Int): String {
+    var result = ""
+    val number = n
+    if (number > 0) {
+        when (number / 100 % 10) {
+            1 -> result += "сто"
+            2 -> result += "двести"
+        }
+        if (number / 100 % 10 in 3..4) result = result + rusWords[number / 100 % 10] + "ста"
+        if (number / 100 % 10 in 5..9) result = result + rusWords[number / 100 % 10] + "сот"
+
+        if (number % 100 in 1..19) {
+            result = result + " " + rusWords[number % 100]
+        }
+        if (number % 100 in 20..39) {
+            result = result + " " + rusWords[number / 10 % 10] + "дцать" + " " + rusWords[number % 10]
+        }
+        if (number % 100 in 50..89) {
+            result = result + " " + rusWords[number / 10 % 10] + "десят" + " " + rusWords[number % 10]
+        }
+        when (number % 100) {
+            40 -> result = result + " сорок " + rusWords[number % 10]
+            90 -> result = result + " девяносто " + rusWords[number % 10]
+        }
+    }
+    return result
+}
 fun russian(n: Int): String {
-    TODO()
+    var result = ""
+    var number = n
+    if (number > 999) {
+        number /= 1000
+        result += numberOfThrees(number)
+        when (number % 10) {
+            1 -> result = result.substring(0, (result.length - 4)) + "одна тысяча "
+            2 -> result = result.substring(0, (result.length - 3)) + "две"
+        }
+        if (number % 10 in 2..4) result += " тысячи " else result += " тысяч "
+    }
+    result += numberOfThrees(n % 1000)
+    return result.replace("  ", " ").trim()
 }
