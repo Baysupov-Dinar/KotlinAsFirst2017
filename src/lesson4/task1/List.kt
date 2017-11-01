@@ -283,10 +283,8 @@ fun numberOfThrees(n: Int): String {
         if (number % 100 in 50..89) {
             result = result + " " + rusWords[number / 10 % 10] + "десят" + " " + rusWords[number % 10]
         }
-        when (number % 100) {
-            40 -> result = result + " сорок " + rusWords[number % 10]
-            90 -> result = result + " девяносто " + rusWords[number % 10]
-        }
+        if (number % 100 in 40..49) result = result + " сорок " + rusWords[number % 10]
+        if (number % 100 in 90..99) result = result + " девяносто " + rusWords[number % 10]
     }
     return result
 }
