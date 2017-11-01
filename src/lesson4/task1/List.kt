@@ -296,7 +296,8 @@ fun russian(n: Int): String {
         result += numberOfThrees(number)
 
         if (number in 10..20 || number % 100 in 10..20) result += " тысяч "
-        else if (number % 10 in 2..4 || number % 100 in 2..4) result = result.substring(0, (result.length - 3)) + "две тысячи "
+        else if (number % 10 == 2 || number % 100 == 2) result = result.substring(0, (result.length - 3)) + "две тысячи "
+        else if (number % 10 in 3..4 || number % 100 in 3..4) result += " тысячи "
         else if (number % 10 == 1 || number % 100 == 1) result = result.substring(0, (result.length - 4)) + "одна тысяча "
         else result += " тысяч "
     }
