@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import java.lang.Math.sqrt
@@ -110,7 +112,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for(element in v){
+    for (element in v) {
         sum += sqr(element)
     }
     return sqrt(sum)
@@ -240,13 +242,13 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
 fun roman(n: Int): String {
     var number = n
     var result = ""
-    val listOfNumbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val listOfSymbols = listOf("M", "CM", "D", "CD", "C", "XC",
-            "L", "XL", "X", "IX", "V", "IV", "I")
+    val listOfPairs = listOf(Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
+            Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"),
+            Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
     for (i in 0..12) {
-        while (number >= listOfNumbers[i]) {
-            result += (listOfSymbols[i])
-            number -= listOfNumbers[i]
+        while (number >= listOfPairs[i].first) {
+            result += (listOfPairs[i].second)
+            number -= listOfPairs[i].first
         }
     }
     return result
@@ -264,43 +266,46 @@ val rusWords = listOf("", "один", "два", "три", "четыре", "пя�
         "семнадцать", "восемнадцать", "девятнадцать")
 
 fun numberOfThrees(n: Int): String {
-    var result = ""
+    var result = StringBuilder()
     val number = n
     if (number > 0) {
         when (number / 100 % 10) {
-            1 -> result += "сто"
-            2 -> result += "двести"
+            1 -> result.append("сто")
+            2 -> result.append("двести")
         }
-        if (number / 100 % 10 in 3..4) result = result + rusWords[number / 100 % 10] + "ста"
-        if (number / 100 % 10 in 5..9) result = result + rusWords[number / 100 % 10] + "сот"
+        if (number / 100 % 10 in 3..4) result = result.append(rusWords[number / 100 % 10] + "ста")
+        if (number / 100 % 10 in 5..9) result = result.append(rusWords[number / 100 % 10] + "сот")
 
         if (number % 100 in 1..19) {
-            result = result + " " + rusWords[number % 100]
+            result = result.append(" " + rusWords[number % 100])
         }
         if (number % 100 in 20..39) {
-            result = result + " " + rusWords[number / 10 % 10] + "дцать" + " " + rusWords[number % 10]
+            result = result.append(" " + rusWords[number / 10 % 10] + "дцать" + " " + rusWords[number % 10])
         }
         if (number % 100 in 50..89) {
-            result = result + " " + rusWords[number / 10 % 10] + "десят" + " " + rusWords[number % 10]
+            result = result.append(" " + rusWords[number / 10 % 10] + "десят" + " " + rusWords[number % 10])
         }
-        if (number % 100 in 40..49) result = result + " сорок " + rusWords[number % 10]
-        if (number % 100 in 90..99) result = result + " девяносто " + rusWords[number % 10]
+        if (number % 100 in 40..49) result = result.append(" сорок " + rusWords[number % 10])
+        if (number % 100 in 90..99) result = result.append(" девяносто " + rusWords[number % 10])
     }
-    return result
+    return result.toString()
 }
+
 fun russian(n: Int): String {
-    var result = ""
+    val result = StringBuilder()
     var number = n
     if (number > 999) {
         number /= 1000
-        result += numberOfThrees(number)
+        result.append(numberOfThrees(number))
 
-        if (number in 10..20 || number % 100 in 10..20) result += " тысяч "
-        else if (number % 10 == 2 || number % 100 == 2) result = result.substring(0, (result.length - 3)) + "две тысячи "
-        else if (number % 10 in 3..4 || number % 100 in 3..4) result += " тысячи "
-        else if (number % 10 == 1 || number % 100 == 1) result = result.substring(0, (result.length - 4)) + "одна тысяча "
-        else result += " тысяч "
+        if (number in 10..20 || number % 100 in 10..20) result.append(" тысяч ")
+        else if (number % 10 == 2 || number % 100 == 2)
+            result.replace(result.length - 3, result.length, "две тысячи ")
+        else if (number % 10 in 3..4 || number % 100 in 3..4) result.append(" тысячи ")
+        else if (number % 10 == 1 || number % 100 == 1) {
+            result.replace(result.length - 4, result.length, "одна тысяча ")
+        } else result.append(" тысяч ")
     }
-    result += numberOfThrees(n % 1000)
-    return result.replace("  ", " ").trim()
+    result.append(numberOfThrees(n % 1000))
+    return result.toString().replace("  ", " ").trim()
 }

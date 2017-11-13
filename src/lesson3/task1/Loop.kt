@@ -81,8 +81,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    //return if (n < 3) 1 else fib(n - 2) + fib(n - 1) "ну нормальный же код был, ну"
-    var fib1 = 0
+    var fib1: Int
     var fib2 = 1
     var fibRes = 0
     var count = 1
@@ -110,11 +109,18 @@ fun lcm(m: Int, n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var minDiv = 1
-    do {
-        minDiv++
-    } while (n % minDiv != 0)
-    return minDiv
+    if (isPrime(n)) return n
+    else {
+        for (i in 2..n) {
+            if (n % i == 0) {
+                minDiv = i
+                return minDiv
+            }
+        }
+        return minDiv
+    }
 }
+
 
 /**
  * Простая
@@ -140,9 +146,16 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in m..n)
-        if (sqrt(i.toDouble()) % 1.0 == 0.0) return true
-    return false
+    val sqrtM = sqrt(m.toDouble())
+    val sqrtN = sqrt(n.toDouble())
+    if (sqrtM % 1 == 0.0 || sqrtN % 1 == 0.0) return true
+    else {
+        var count = -1
+        for (i in sqrtM.toInt()..sqrtN.toInt()) {
+            count++
+        }
+        return count > 0
+    }
 }
 
 
@@ -233,17 +246,17 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var seq = 0
-    var iter =1
+    var iter = 1
     var count = 0
-    while(count < n) {
+    while (count < n) {
         seq = fib(iter)
         count += digitNumber(fib(iter))
         iter++
     }
 
-    while(count != n){
-        count --
-        seq /=  10
+    while (count != n) {
+        count--
+        seq /= 10
     }
     return seq % 10
 }
