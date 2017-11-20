@@ -66,7 +66,21 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val monthsInRus = listOf("января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        if ((parts[0].toInt() !in 0..31) || parts[2].toInt() < 0) return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    val digitOfMonth = monthsInRus.indexOf(parts[1]) + 1
+    if (digitOfMonth == 0) return ""
+    return String.format("%02d.%02d.%d", parts[0].toInt(), digitOfMonth, parts[2].toInt())
+}
 
 /**
  * Средняя
@@ -75,7 +89,23 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        if ((parts[0].toInt() !in 0..31) || parts[2].toInt() < 0) return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    val monthOfDigit: String
+    try {
+        monthOfDigit = monthsInRus[parts[1].toInt() - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
+
+    return String.format("%d %s %d", parts[0].toInt(), monthOfDigit, parts[2].toInt())
+}
 
 /**
  * Средняя
@@ -89,7 +119,9 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    TODO()
+}
 
 /**
  * Средняя

@@ -245,7 +245,7 @@ fun roman(n: Int): String {
     val listOfPairs = listOf(Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
             Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"),
             Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
-    for (i in 0..12) {
+    for (i in 0 until listOfPairs.size) {
         while (number >= listOfPairs[i].first) {
             result += (listOfPairs[i].second)
             number -= listOfPairs[i].first
