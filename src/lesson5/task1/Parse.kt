@@ -120,7 +120,12 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    TODO()
+    var result = ""
+    val cleanPhone = Regex("""[\-+|\s+|(+|\)]""").replace(phone, "")
+    if (phone.contains(Regex("""[^\d+|\-+|\s+|\(+|\)]"""))) return "" else
+        if (phone.contains(Regex("""^\+"""))) result = "+"
+    if (phone.contains(Regex("""[\d]"""))) return result + cleanPhone
+    else return ""
 }
 
 /**
@@ -145,7 +150,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var bestRes = 0
+    for (part in parts) {
+        if (part == "+") if (part[part.toInt() - 1].toInt() > bestRes) bestRes = part[part.toInt() - 1].toInt()
+    }
+    return bestRes
+    if (jumps.contains(Regex("""[^\d\+%\-]"""))) return -1
+}
 
 /**
  * Сложная
@@ -156,7 +169,9 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    TODO()
+}
 
 /**
  * Сложная
