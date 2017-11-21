@@ -154,10 +154,10 @@ fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var bestRes = 0
     for (part in parts) {
-        if (part == "+") if (part[part.toInt() - 1].toInt() > bestRes) bestRes = part[part.toInt() - 1].toInt()
+        if (part == "+" || part == "%+") if (part[part.toInt() - 1].toInt() > bestRes) bestRes = part[part.toInt() - 1].toInt()
     }
-    return bestRes
-    if (jumps.contains(Regex("""[^\d\+%\-]"""))) return -1
+    if (jumps.contains(Regex("""[^\d\+%\-]""")) || !jumps.contains(Regex("""[\d]"""))) return -1
+    else return bestRes
 }
 
 /**
