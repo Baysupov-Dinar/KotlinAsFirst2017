@@ -143,13 +143,13 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val sqrtM = sqrt(m.toDouble())
     val sqrtN = sqrt(n.toDouble())
-    if (sqrtM.toInt() % 1 == 0 || sqrtN.toInt() % 1 == 0) return true
+    return if (sqrtM.toInt() % 1 == 0 || sqrtN.toInt() % 1 == 0) true
     else {
         var count = -1
         for (i in sqrtM.toInt()..sqrtN.toInt()) {
             count++
         }
-        return count > 0
+        count > 0
     }
 }
 

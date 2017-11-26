@@ -151,14 +151,22 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
+    var bestRes = -1
     val parts = jumps.split(" ")
-    var bestRes = 0
-    for (part in parts) {
-        if (part == "+" || part == "%+") if (part[part.toInt() - 1].toInt() > bestRes) bestRes = part[part.toInt() - 1].toInt()
+    for (i in 0 until parts.size - 1) {
+        try {
+            if ((parts[i].toInt() > bestRes) &&
+                    (parts[i + 1].indexOf("+") != -1)) bestRes = parts[i].toInt()
+
+        } catch (e: NumberFormatException) {
+            for (el in parts[i]) {
+                if (el !in listOf('+', '-', '%')) return -1
+            }
+        }
     }
-    if (jumps.contains(Regex("""[^\d\+%\-]""")) || !jumps.contains(Regex("""[\d]"""))) return -1
-    else return bestRes
+    return bestRes
 }
+
 
 /**
  * Сложная
