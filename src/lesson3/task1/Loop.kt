@@ -4,6 +4,7 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import java.lang.Math.*
+import javax.swing.KeyStroke
 
 /**
  * Пример
@@ -70,7 +71,7 @@ fun digitNumber(n: Int): Int {
     do {
         result++
         number /= 10
-    } while (Math.abs(number) > 0)
+    } while (number > 0)
     return result
 }
 
@@ -84,12 +85,10 @@ fun fib(n: Int): Int {
     var fib1: Int
     var fib2 = 1
     var fibRes = 0
-    var count = 1
-    while (count <= n) {
+    for (i in 1..n) {
         fib1 = fib2
         fib2 = fibRes
         fibRes = fib1 + fib2
-        count++
     }
     return fibRes
 }
@@ -141,18 +140,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqrtM = sqrt(m.toDouble())
-    val sqrtN = sqrt(n.toDouble())
-    return if (sqrtM.toInt() % 1 == 0 || sqrtN.toInt() % 1 == 0) true
-    else {
-        var count = -1
-        for (i in sqrtM.toInt()..sqrtN.toInt()) {
-            count++
-        }
-        count > 0
+    for (i in 0..sqrt(n.toDouble()).toInt()) {
+        if (i * i in m..n) return true
     }
+    return false
 }
-
 
 /**
  * Средняя
@@ -209,20 +201,18 @@ fun hasDifferentDigits(n: Int): Boolean {
     TODO()
 }
 
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
- * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
- */
-fun squareSequenceDigit(n: Int): Int {
+fun digitFromSequence(n: Int, key: String): Int {
     var number = 0
+    var iter = 1
     var count = 0
-    var iter = 1.0
+    var numSeq = 0.0
     while (count < n) {
-        number = sqr(iter).toInt()
-        count += digitNumber(sqr(iter).toInt())
+        when (key) {
+            "Sqr" -> numSeq = sqr(iter.toDouble())
+            "Fib" -> numSeq = fib(iter).toDouble()
+        }
+        number = numSeq.toInt()
+        count += digitNumber(numSeq.toInt())
         iter++
     }
     while (count != n) {
@@ -235,23 +225,19 @@ fun squareSequenceDigit(n: Int): Int {
 /**
  * Сложная
  *
+ * Найти n-ю цифру последовательности из квадратов целых чисел:
+ * 149162536496481100121144...
+ * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ */
+
+fun squareSequenceDigit(n: Int): Int = digitFromSequence(n, "Sqr")
+
+/**
+ * Сложная
+ *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int {
-    var seq = 0
-    var iter = 1
-    var count = 0
-    while (count < n) {
-        seq = fib(iter)
-        count += digitNumber(fib(iter))
-        iter++
-    }
+fun fibSequenceDigit(n: Int): Int = digitFromSequence(n, "Fib")
 
-    while (count != n) {
-        count--
-        seq /= 10
-    }
-    return seq % 10
-}

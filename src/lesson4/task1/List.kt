@@ -2,7 +2,6 @@
 
 package lesson4.task1
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import java.lang.Math.sqrt
@@ -266,27 +265,23 @@ val rusWords = listOf("", "один", "два", "три", "четыре", "пя�
         "семнадцать", "восемнадцать", "девятнадцать")
 
 fun numberOfThrees(n: Int): String {
-    var result = StringBuilder()
-    val number = n
-    if (number > 0) {
-        when (number / 100 % 10) {
+    val result = StringBuilder()
+    if (n > 0) {
+        when (n / 100 % 10) {
             1 -> result.append("сто")
             2 -> result.append("двести")
         }
-        if (number / 100 % 10 in 3..4) result = result.append(rusWords[number / 100 % 10] + "ста")
-        if (number / 100 % 10 in 5..9) result = result.append(rusWords[number / 100 % 10] + "сот")
-
-        if (number % 100 in 1..19) {
-            result = result.append(" " + rusWords[number % 100])
+        when (n / 100 % 10) {
+            in 3..4 -> result.append(rusWords[n / 100 % 10] + "ста")
+            in 5..9 -> result.append(rusWords[n / 100 % 10] + "сот")
         }
-        if (number % 100 in 20..39) {
-            result = result.append(" " + rusWords[number / 10 % 10] + "дцать" + " " + rusWords[number % 10])
+        when (n % 100) {
+            in 1..19 -> result.append(" " + rusWords[n % 100])
+            in 20..39 -> result.append(" " + rusWords[n / 10 % 10] + "дцать" + " " + rusWords[n % 10])
+            in 50..89 -> result.append(" " + rusWords[n / 10 % 10] + "десят" + " " + rusWords[n % 10])
+            in 40..49 -> result.append(" сорок " + rusWords[n % 10])
+            in 90..99 -> result.append(" девяносто " + rusWords[n % 10])
         }
-        if (number % 100 in 50..89) {
-            result = result.append(" " + rusWords[number / 10 % 10] + "десят" + " " + rusWords[number % 10])
-        }
-        if (number % 100 in 40..49) result = result.append(" сорок " + rusWords[number % 10])
-        if (number % 100 in 90..99) result = result.append(" девяносто " + rusWords[number % 10])
     }
     return result.toString()
 }
@@ -297,14 +292,15 @@ fun russian(n: Int): String {
     if (number > 999) {
         number /= 1000
         result.append(numberOfThrees(number))
-
-        if (number in 10..20 || number % 100 in 10..20) result.append(" тысяч ")
-        else if (number % 10 == 2 || number % 100 == 2)
-            result.replace(result.length - 3, result.length, "две тысячи ")
-        else if (number % 10 in 3..4 || number % 100 in 3..4) result.append(" тысячи ")
-        else if (number % 10 == 1 || number % 100 == 1) {
-            result.replace(result.length - 4, result.length, "одна тысяча ")
-        } else result.append(" тысяч ")
+        if (number in 10..20 || number % 100 in 10..20)
+            result.append(" тысяч ") else
+            if (number % 10 == 2 || number % 100 == 2)
+                result.replace(result.length - 3, result.length, "две тысячи ") else
+                if (number % 10 in 3..4 || number % 100 in 3..4)
+                    result.append(" тысячи ") else
+                    if (number % 10 == 1 || number % 100 == 1)
+                        result.replace(result.length - 4, result.length, "одна тысяча ") else
+                        result.append(" тысяч ")
     }
     result.append(numberOfThrees(n % 1000))
     return result.toString().replace("  ", " ").trim()
