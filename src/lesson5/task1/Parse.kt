@@ -97,13 +97,11 @@ fun dateDigitToStr(digital: String): String {
     } catch (e: NumberFormatException) {
         return ""
     }
-    val monthOfDigit: String
-    try {
-        monthOfDigit = monthsInRus[parts[1].toInt() - 1]
+    val monthOfDigit = try {
+        monthsInRus[parts[1].toInt() - 1]
     } catch (e: IndexOutOfBoundsException) {
         return ""
     }
-
     return String.format("%d %s %d", parts[0].toInt(), monthOfDigit, parts[2].toInt())
 }
 
@@ -121,11 +119,11 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
-    val cleanPhone = Regex("""[\-+|\s+|(+|\)]""").replace(phone, "")
-    if (phone.contains(Regex("""[^\d+|\-+|\s+|\(+|\)]"""))) return "" else
-        if (phone.contains(Regex("""^\+"""))) result = "+"
-    if (phone.contains(Regex("""[\d]"""))) return result + cleanPhone
-    else return ""
+    if (phone.replace(Regex("""\A\+|\d|\(|\)|-|\s"""), "") != "") return ""
+    if (phone[0].toString() == "+") result += "+"
+    val cleanPhone = Regex("""[^\d]""").replace(phone, "")
+    result += cleanPhone
+    return result
 }
 
 /**
