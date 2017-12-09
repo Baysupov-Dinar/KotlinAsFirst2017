@@ -292,15 +292,11 @@ fun russian(n: Int): String {
     if (number > 999) {
         number /= 1000
         result.append(numberOfThrees(number))
-        if (number in 10..20 || number % 100 in 10..20)
-            result.append(" тысяч ") else
-            if (number % 10 == 2 || number % 100 == 2)
-                result.replace(result.length - 3, result.length, "две тысячи ") else
-                if (number % 10 in 3..4 || number % 100 in 3..4)
-                    result.append(" тысячи ") else
-                    if (number % 10 == 1 || number % 100 == 1)
-                        result.replace(result.length - 4, result.length, "одна тысяча ") else
-                        result.append(" тысяч ")
+        if (number in 10..20 || number % 100 in 10..20) result.append(" тысяч ")
+        else if (number % 10 == 2 || number % 100 == 2) result.replace(result.length - 3, result.length, "две тысячи ")
+        else if (number % 10 in 3..4 || number % 100 in 3..4) result.append(" тысячи ")
+        else if (number % 10 == 1 || number % 100 == 1) result.replace(result.length - 4, result.length, "одна тысяча ")
+        else result.append(" тысяч ")
     }
     result.append(numberOfThrees(n % 1000))
     return result.toString().replace("  ", " ").trim()

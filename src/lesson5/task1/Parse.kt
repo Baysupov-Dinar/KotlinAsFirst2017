@@ -77,9 +77,9 @@ fun dateStrToDigit(str: String): String {
     } catch (e: NumberFormatException) {
         return ""
     }
-    val digitOfMonth = monthsInRus.indexOf(parts[1]) + 1
-    if (digitOfMonth == 0) return ""
-    return String.format("%02d.%02d.%d", parts[0].toInt(), digitOfMonth, parts[2].toInt())
+    val numberOfMonth = monthsInRus.indexOf(parts[1]) + 1
+    if (numberOfMonth == 0) return ""
+    return String.format("%02d.%02d.%d", parts[0].toInt(), numberOfMonth, parts[2].toInt())
 }
 
 /**
@@ -97,12 +97,12 @@ fun dateDigitToStr(digital: String): String {
     } catch (e: NumberFormatException) {
         return ""
     }
-    val monthOfDigit = try {
+    val nameOfMonth = try {
         monthsInRus[parts[1].toInt() - 1]
     } catch (e: IndexOutOfBoundsException) {
         return ""
     }
-    return String.format("%d %s %d", parts[0].toInt(), monthOfDigit, parts[2].toInt())
+    return String.format("%d %s %d", parts[0].toInt(), nameOfMonth, parts[2].toInt())
 }
 
 /**
@@ -149,20 +149,19 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var bestRes = -1
-    val parts = jumps.split(" ")
-    for (i in 0 until parts.size - 1) {
+    var bestRes = ""
+    if (!jumps.matches(Regex("""[\d%-\+]"""))) return -1
+    else {
+        val parts = jumps.split(" ")
         try {
-            if ((parts[i].toInt() > bestRes) &&
-                    (parts[i + 1].indexOf("+") != -1)) bestRes = parts[i].toInt()
-
-        } catch (e: NumberFormatException) {
-            for (el in parts[i]) {
-                if (el !in listOf('+', '-', '%')) return -1
+            for (i in 0..parts.size step 2) {
+                if (parts[i + 1] == "+" && parts[i] > bestRes) bestRes = parts[i]
             }
+        } catch (e: IndexOutOfBoundsException) {
+            return bestRes.toInt()
         }
     }
-    return bestRes
+    return bestRes.toInt()
 }
 
 
@@ -175,9 +174,12 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int {
-    TODO()
-}
+/*fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    for (i in 1 until parts.size step 2) {
+        if (parts[i] !in listOf("+", "-")) throw IllegalArgumentException()
+    }
+}*/
 
 /**
  * Сложная

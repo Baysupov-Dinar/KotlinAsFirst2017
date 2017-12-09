@@ -67,7 +67,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var result = 0
-    var number = n
+    var number = Math.abs(n)
     do {
         result++
         number /= 10
@@ -201,18 +201,15 @@ fun hasDifferentDigits(n: Int): Boolean {
     TODO()
 }
 
-fun digitFromSequence(n: Int, key: String): Int {
+fun digitFromSequence(n: Int, f: (Int) -> Int): Int {
     var number = 0
     var iter = 1
     var count = 0
-    var numSeq = 0.0
     while (count < n) {
-        when (key) {
-            "Sqr" -> numSeq = sqr(iter.toDouble())
-            "Fib" -> numSeq = fib(iter).toDouble()
-        }
-        number = numSeq.toInt()
-        count += digitNumber(numSeq.toInt())
+
+        val numSeq = f(iter)
+        number = numSeq
+        count += digitNumber(numSeq)
         iter++
     }
     while (count != n) {
@@ -230,7 +227,7 @@ fun digitFromSequence(n: Int, key: String): Int {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 
-fun squareSequenceDigit(n: Int): Int = digitFromSequence(n, "Sqr")
+fun squareSequenceDigit(n: Int): Int = digitFromSequence(n, { x -> x * x })
 
 /**
  * Сложная
@@ -239,5 +236,5 @@ fun squareSequenceDigit(n: Int): Int = digitFromSequence(n, "Sqr")
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = digitFromSequence(n, "Fib")
+fun fibSequenceDigit(n: Int): Int = digitFromSequence(n, { x -> fib(x) })
 
