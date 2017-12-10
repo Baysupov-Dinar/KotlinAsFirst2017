@@ -119,7 +119,8 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
-    if (phone.replace(Regex("""\A\+|\d|\(|\)|-|\s"""), "") != "") return ""
+    if (phone == "") return ""
+    if (phone.replace(Regex("""\+?[\s\d-()]+"""), "") != "") return ""
     if (phone[0].toString() == "+") result += "+"
     val cleanPhone = Regex("""[^\d]""").replace(phone, "")
     result += cleanPhone
@@ -149,19 +150,20 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var bestRes = 0
+    var bestRes: Long
+    bestRes = -1
     if (!jumps.replace("%", "").contains(Regex("""\d*\s\+"""))) return -1
     else {
         val parts = jumps.split(" ")
         try {
             for (i in 0..parts.size step 2) {
-                if (parts[i + 1] == "+" && parts[i] > bestRes.toString()) bestRes = parts[i].toInt()
+                if (parts[i + 1] == "+" && parts[i] > bestRes.toString()) bestRes = parts[i].toLong()
             }
         } catch (e: IndexOutOfBoundsException) {
-            return bestRes
+            return bestRes.toInt()
         }
     }
-    return bestRes
+    return bestRes.toInt()
 }
 
 
@@ -178,7 +180,7 @@ fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     var result = parts[0].toInt()
     for (i in 1 until parts.size step 2) {
-        if ((parts[i] !in listOf("+", "-")) || (!parts[i - 1].matches(Regex("""\d*""")))) throw IllegalArgumentException()
+        if ((parts[i] !in listOf("+", "-")) || (!parts[i - 1].matches(Regex("""\d+""")))) throw IllegalArgumentException()
     }
     for (j in 1 until parts.size) {
         when (parts[j]) {
