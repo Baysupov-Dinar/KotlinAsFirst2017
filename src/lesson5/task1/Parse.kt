@@ -149,19 +149,19 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var bestRes = ""
-    if (!jumps.matches(Regex("""[\d%-\+]"""))) return -1
+    var bestRes = 0
+    if (!jumps.replace("%", "").contains(Regex("""\d*\s\+"""))) return -1
     else {
         val parts = jumps.split(" ")
         try {
             for (i in 0..parts.size step 2) {
-                if (parts[i + 1] == "+" && parts[i] > bestRes) bestRes = parts[i]
+                if (parts[i + 1] == "+" && parts[i] > bestRes.toString()) bestRes = parts[i].toInt()
             }
         } catch (e: IndexOutOfBoundsException) {
-            return bestRes.toInt()
+            return bestRes
         }
     }
-    return bestRes.toInt()
+    return bestRes
 }
 
 
@@ -174,12 +174,20 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-/*fun plusMinus(expression: String): Int {
+fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
+    var result = parts[0].toInt()
     for (i in 1 until parts.size step 2) {
-        if (parts[i] !in listOf("+", "-")) throw IllegalArgumentException()
+        if ((parts[i] !in listOf("+", "-")) || (!parts[i - 1].matches(Regex("""\d*""")))) throw IllegalArgumentException()
     }
-}*/
+    for (j in 1 until parts.size) {
+        when (parts[j]) {
+            "+" -> result += parts[j + 1].toInt()
+            "-" -> result -= parts[j + 1].toInt()
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
