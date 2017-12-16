@@ -140,7 +140,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 0..sqrt(n.toDouble()).toInt()) {
+    for (i in ceil(sqrt(m.toDouble())).toInt()..sqrt(n.toDouble()).toInt()) {
         if (i * i in m..n) return true
     }
     return false
@@ -206,10 +206,8 @@ fun digitFromSequence(n: Int, f: (Int) -> Int): Int {
     var iter = 1
     var count = 0
     while (count < n) {
-
-        val numSeq = f(iter)
-        number = numSeq
-        count += digitNumber(numSeq)
+        number = f(iter)
+        count += digitNumber(f(iter))
         iter++
     }
     while (count != n) {
