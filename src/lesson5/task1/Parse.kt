@@ -150,16 +150,13 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var bestRes: Int
-    bestRes = -1
+    var bestRes = -1
     if (!jumps.contains(Regex("""\d*\s%*\+"""))) return -1
-    else {
         val parts = jumps.split(" ")
         for (i in 1..parts.size step 2) {
             if ((parts[i].indexOf("+") != -1) && parts[i - 1].toInt() > bestRes)
                 bestRes = parts[i - 1].toInt()
         }
-    }
     return bestRes
 }
 
@@ -175,12 +172,10 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression == " " || expression == "") throw IllegalArgumentException()
-    if (!expression.matches(Regex("""(\d*(\s([+-]*))*)+"""))) throw IllegalArgumentException()
+    if (!expression.matches(Regex("""(\d*(\s([+-]*))*)+""")))
+        throw IllegalArgumentException()
     val parts = expression.split(" ")
     var result = parts[0].toInt()
-    for (i in 1 until parts.size step 2) {
-        if (parts[i] !in listOf("+", "-")) throw IllegalArgumentException()
-    }
     for (j in 1 until parts.size) {
         when (parts[j]) {
             "+" -> result += parts[j + 1].toInt()
@@ -264,5 +259,63 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
-    TODO()
+    var position = Math.floor(cells / 2.0).toInt()
+    val res = MutableList(cells, { 0 })
+    var bracketCounter = 0
+    var pairOfBracket = 0
+    val bracketCoords = mutableListOf<Pair<Int, (Pair<Int, Int>)>>()
+
+    var iter = 0
+    for (i in 0 until commands.length) {
+        if (commands[i] == '[') {
+            bracketCounter++
+            for (j in i + 1 until commands.length) {
+                if (commands[j] == '[') pairOfBracket++
+                if (commands[j] == ']') {
+                    if (pairOfBracket == 0) {
+                        iter++
+                        bracketCoords.add(Pair(iter, Pair(i, j)))
+
+                        break
+                    } else pairOfBracket--
+                }
+            }
+        }
+        if (commands[i] == ']')
+            bracketCounter--
+    }
+    if (bracketCounter != 0) throw IllegalArgumentException()
+    var numOfPair = 0
+    var i = 0
+    while (i < commands.length) {
+        if (commands[i] !in listOf('<', '>', '+', '-', '[', ']', ' ')) {
+            throw IllegalArgumentException()
+        }
+        when (commands[i]) {
+            '>' -> position++
+            '<' -> position--
+            '+' -> res[position]++
+            '-' -> res[position]--
+            '[' -> {
+                try {
+                    if (res[position] == 0) i = bracketCoords[numOfPair].second.second
+                } catch (e: IndexOutOfBoundsException) {
+                    throw IllegalArgumentException()
+                }
+            }
+            ']' -> {
+                try {
+                    if (res[position] != 0) i = bracketCoords[numOfPair].second.first
+                    if (res[position] == 0) numOfPair++
+                } catch (e: IndexOutOfBoundsException) {
+                    throw IllegalArgumentException()
+                }
+                //
+            }
+            else -> {
+            }
+        }
+        i++
+    }
+    return res
 }
