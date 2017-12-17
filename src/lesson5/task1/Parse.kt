@@ -288,37 +288,34 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     if (bracketCounter != 0) throw IllegalArgumentException()
     var limitCommands = 0
     var i = 0
-    while (limitCommands < limit && i < commands.length) {
-        if (commands[i] !in listOf('<', '>', '+', '-', '[', ']', ' ')) {
-            throw IllegalArgumentException()
-        }
-        when (commands[i]) {
-            '>' -> position++
-            '<' -> position--
-            '+' -> res[position]++
-            '-' -> res[position]--
-            '[' -> {
-                try {
+    try {
+        while (limitCommands < limit && i < commands.length) {
+            if (commands[i] !in listOf('<', '>', '+', '-', '[', ']', ' ')) {
+                throw IllegalArgumentException()
+            }
+            when (commands[i]) {
+                '>' -> position++
+                '<' -> position--
+                '+' -> res[position]++
+                '-' -> res[position]--
+                '[' -> {
                     if (res[position] == 0)
                         i = bracketCoords.find { it.first == i }?.second!!
-                } catch (e: IndexOutOfBoundsException) {
-                    throw IllegalArgumentException()
                 }
-            }
-            ']' -> {
-                try {
+                ']' -> {
                     if (res[position] != 0)
                         i = bracketCoords.find { it.second == i }?.first!!
-                } catch (e: IndexOutOfBoundsException) {
-                    throw IllegalArgumentException()
                 }
+                ' ' -> {
+                }
+                else -> throw IllegalArgumentException()
             }
-            ' ' -> {
-            }
-            else -> throw IllegalArgumentException()
+            if (position !in 0 until cells) throw IllegalStateException()
+            limitCommands++
+            i++
         }
-        limitCommands++
-        i++
+    } catch (e: IndexOutOfBoundsException) {
+        throw IllegalArgumentException()
     }
     return res
 }
