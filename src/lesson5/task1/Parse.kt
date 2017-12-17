@@ -120,7 +120,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
     if (phone == "") return ""
-    if (phone.replace(Regex("""\+?[\s\d-()]+"""), "") != "") return ""
+    if (!phone.matches(Regex("""\+?[\s\d-()]+"""))) return ""
     if (phone[0].toString() == "+") result += "+"
     val cleanPhone = Regex("""[^\d]""").replace(phone, "")
     result += cleanPhone
@@ -150,21 +150,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var bestRes: Long
+    var bestRes: Int
     bestRes = -1
     if (!jumps.contains(Regex("""\d*\s%*\+"""))) return -1
     else {
         val parts = jumps.split(" ")
-        try {
-            for (i in 0..parts.size + 1 step 2) {
-                if (parts[i].toInt() > bestRes && (parts[i + 1].replace("%", "") == "+"))
-                    bestRes = parts[i].toLong()
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            return bestRes.toInt()
+        for (i in 1..parts.size step 2) {
+            if ((parts[i].indexOf("+") != -1) && parts[i - 1].toInt() > bestRes)
+                bestRes = parts[i - 1].toInt()
         }
     }
-    return bestRes.toInt()
+    return bestRes
 }
 
 
@@ -181,10 +177,9 @@ fun plusMinus(expression: String): Int {
     if (expression == " " || expression == "") throw IllegalArgumentException()
     if (!expression.matches(Regex("""(\d*(\s([+-]*))*)+"""))) throw IllegalArgumentException()
     val parts = expression.split(" ")
-
     var result = parts[0].toInt()
     for (i in 1 until parts.size step 2) {
-        if ((parts[i] !in listOf("+", "-")) || (!parts[i - 1].matches(Regex("""\d+""")))) throw IllegalArgumentException()
+        if (parts[i] !in listOf("+", "-")) throw IllegalArgumentException()
     }
     for (j in 1 until parts.size) {
         when (parts[j]) {
@@ -269,60 +264,5 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
-    /* var position = Math.floor(cells/2.0).toInt()
-     val res = MutableList(cells, { 0 })
-     var bracketCounter = 0
-     var pairOfBracket = 0
-     val bracketCoords = mutableListOf<Pair<Int, (Pair<Int,Int>)>>()
-     //val bracketCoords = mutableMapOf<Int,Int>()
-     var iter=0
-     for (i in 0 until commands.length) {
-         if (commands[i] == '[') {
-             bracketCounter++
-             for (j in i + 1 until commands.length) {
-                 if (commands[j] == '[') pairOfBracket++
-                 if (commands[j] == ']') {
-                     if (pairOfBracket == 0) {
-                         iter++
-                         bracketCoords.add(Pair(iter,Pair(i,j)))
-                         //bracketCoords.put(i,j)
-                         break
-                     } else pairOfBracket--
-                 }
-             }
-         }
-         if(commands[i] == ']')
-         bracketCounter--
-     }
-     if(bracketCounter != 0) throw IllegalArgumentException()
-     var i = 0
-     while(i < commands.length){
-         if (commands[i] !in listOf('<', '>', '+', '-', '[', ']', ' ')) {
-             throw IllegalArgumentException()
-         }
-         when(commands[i]){
-         '>' -> position++
-         '<' -> position--
-         '+' -> res[position]++
-         '-' -> res[position]--
-         '[' -> {
-                 try {
-                     if (res[position] == 0) i = bracketCoords[iter-1].second.second-1 else  i++
-                 } catch (e: IndexOutOfBoundsException) {
-                     throw IllegalArgumentException()
-                 }
-             }
-         ']' -> {
-             try {
-                 if (res[position] != 0) i = bracketCoords[iter-1].second.first else i++
-             } catch (e: IndexOutOfBoundsException) {
-                 throw IllegalArgumentException()
-             }
-         }
-         else -> {}
-         }
-      i++
-     }
-     return res*/
     TODO()
 }
