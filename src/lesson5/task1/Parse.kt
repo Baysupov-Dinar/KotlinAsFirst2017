@@ -118,13 +118,13 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var result = ""
+    val result = StringBuilder()
     if (phone == "") return ""
     if (!phone.matches(Regex("""\+?[\s\d-()]+"""))) return ""
-    if (phone[0].toString() == "+") result += "+"
+    if (phone[0].toString() == "+") result.append("+")
     val cleanPhone = Regex("""[^\d]""").replace(phone, "")
-    result += cleanPhone
-    return result
+    result.append(cleanPhone)
+    return result.toString()
 }
 
 /**
@@ -152,11 +152,11 @@ fun bestLongJump(jumps: String): Int = TODO()
 fun bestHighJump(jumps: String): Int {
     var bestRes = -1
     if (!jumps.contains(Regex("""\d*\s%*\+"""))) return -1
-        val parts = jumps.split(" ")
-        for (i in 1..parts.size step 2) {
-            if ((parts[i].indexOf("+") != -1) && parts[i - 1].toInt() > bestRes)
-                bestRes = parts[i - 1].toInt()
-        }
+    val parts = jumps.split(" ")
+    for (i in 1..parts.size step 2) {
+        if ((parts[i].indexOf("+") != -1) && parts[i - 1].toInt() > bestRes)
+            bestRes = parts[i - 1].toInt()
+    }
     return bestRes
 }
 
@@ -172,7 +172,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression == " " || expression == "") throw IllegalArgumentException()
-    if (!expression.matches(Regex("""(\d*(\s([+-]*))*)+""")))
+    if (!expression.matches(Regex("""(?:\d+\s*[-+]\s*)+\d+|\d+""")))//(\d+(\s([+-]*))*)+
         throw IllegalArgumentException()
     val parts: List<String>
     try {
