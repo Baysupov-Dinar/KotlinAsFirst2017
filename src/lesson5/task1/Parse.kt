@@ -172,7 +172,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression == " " || expression == "") throw IllegalArgumentException()
-    if (!expression.matches(Regex("""(?:\d+\s*[-+]\s*)+\d+|\d+""")))//(\d+(\s([+-]*))*)+
+    if (!expression.matches(Regex("""(?:\d+\s*[-+]\s*)+\d+|\d+""")))
         throw IllegalArgumentException()
     val parts: List<String>
     try {
