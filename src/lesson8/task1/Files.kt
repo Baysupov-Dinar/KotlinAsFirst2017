@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson8.task1
 
+
 import java.io.File
 
 /**
@@ -53,7 +54,15 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    val inputText = File(inputName).readLines().joinToString(separator = " ").toLowerCase()
+    for (strings in substrings) {
+        val counter = Regex(strings.toLowerCase()).findAll(inputText).count()
+        result.put(strings, counter)
+    }
+    return result
+}
 
 
 /**

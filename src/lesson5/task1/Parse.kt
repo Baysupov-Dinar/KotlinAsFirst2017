@@ -264,5 +264,61 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
-    TODO()
+    var position = Math.floor(cells / 2.0).toInt()
+    val res = MutableList(cells, { 0 })
+    var bracketCounter = 0
+    var pairOfBracket = 0
+    val bracketCoords = mutableListOf<Pair<Int, Int>>()
+    for (i in 0 until commands.length) {
+        if (commands[i] == '[') {
+            bracketCounter++
+            for (j in i + 1 until commands.length) {
+                if (commands[j] == '[') pairOfBracket++
+                if (commands[j] == ']') {
+                    if (pairOfBracket == 0) {
+                        bracketCoords.add(Pair(i, j))
+                        break
+                    } else pairOfBracket--
+                }
+            }
+        }
+        if (commands[i] == ']')
+            bracketCounter--
+    }
+    if (bracketCounter != 0) throw IllegalArgumentException()
+    var limitCommands = 0
+    var i = 0
+    while (limitCommands < limit && i < commands.length) {
+        if (commands[i] !in listOf('<', '>', '+', '-', '[', ']', ' ')) {
+            throw IllegalArgumentException()
+        }
+        when (commands[i]) {
+            '>' -> position++
+            '<' -> position--
+            '+' -> res[position]++
+            '-' -> res[position]--
+            '[' -> {
+                try {
+                    if (res[position] == 0)
+                        i = bracketCoords.find { it.first == i }?.second!!
+                } catch (e: IndexOutOfBoundsException) {
+                    throw IllegalArgumentException()
+                }
+            }
+            ']' -> {
+                try {
+                    if (res[position] != 0)
+                        i = bracketCoords.find { it.second == i }?.first!!
+                } catch (e: IndexOutOfBoundsException) {
+                    throw IllegalArgumentException()
+                }
+            }
+            ' ' -> {
+            }
+            else -> throw IllegalArgumentException()
+        }
+        limitCommands++
+        i++
+    }
+    return res
 }
